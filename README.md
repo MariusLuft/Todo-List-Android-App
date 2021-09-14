@@ -13,5 +13,7 @@ Kotlin was choosen rather than Java because it is heavily promoted by Google and
 
 ![screenshot](https://user-images.githubusercontent.com/50135757/133249420-36fcad8f-4241-4d75-9154-8317e11d937b.PNG)
 
-In order to save the todos and to still see them after reopening the app I decided to use SQL Lite as a database. SQL Lite is widely used and offers a simple way of storing data without connecting to external servers. Instead it stores everything on local disc files. 
+A todo data class stores necessary information about each todo and the so called todo-adapter handles the todo list. A recyclerview was choosen in case that the list should get longer. This will be efficient because it only loads and creates elements when they are visible. 
+
+In order to save the todos and to still see them after reopening the app I decided to use SQL Lite as a database. SQL Lite is widely used and offers a simple way of storing data without connecting to external servers. Instead it stores everything on local disc files. The names of tables, rows and the database I stored in a contract class like the current best practise suggests. 
 
