@@ -41,12 +41,21 @@ class TodoAdapter
             tvTodoTitle.text = currTodo.Title
             cbDone.isChecked = currTodo.IsChecked
             // is the item checked initially ?
-            toggleStrikeThrough(tvTodoTitle, cbDone.isChecked)
+            initialStrikeThrough(tvTodoTitle, cbDone.isChecked)
             // add listener
             cbDone.setOnCheckedChangeListener { _, isChecked ->
                 toggleStrikeThrough(tvTodoTitle, isChecked)
                 currTodo.IsChecked = !currTodo.IsChecked
             }
+        }
+    }
+
+    private fun initialStrikeThrough(tvTodoTitle: TextView, isChecked: Boolean) {
+        // strikes through the text if is checked
+        if(isChecked){
+            tvTodoTitle.paintFlags = tvTodoTitle.paintFlags or STRIKE_THRU_TEXT_FLAG
+        } else{
+            tvTodoTitle.paintFlags = tvTodoTitle.paintFlags and STRIKE_THRU_TEXT_FLAG.inv()
         }
     }
 
@@ -64,21 +73,22 @@ class TodoAdapter
             tvTodoTitle.paintFlags = tvTodoTitle.paintFlags and STRIKE_THRU_TEXT_FLAG.inv()
         }
 
-        /*// update IsChecked in SQL Lite
+        // update IsChecked in SQL Lite
         val db = storageManager.writableDatabase
         // New value for one column
         val values = ContentValues().apply {
-            put(tvTodoTitle.toString(), if(isChecked) 0 else 1)
+            put(DbContract.Todos.COLUMN_NAME_TITLE, tvTodoTitle.text.toString())
+            put(DbContract.Todos.COLUMN_NAME_ISCHECKED, if(isChecked) 1 else 0)
         }
 
         // Which row to update, based on the title
         val selection = "${DbContract.Todos.COLUMN_NAME_TITLE} LIKE ?"
-        val selectionArgs = arrayOf(tvTodoTitle.toString())
+        val selectionArgs = arrayOf(tvTodoTitle.text.toString())
         val count = db.update(
-            DbContract.Todos.COLUMN_NAME_TITLE,
+            DbContract.Todos.TABLE_NAME,
             values,
             selection,
-            selectionArgs)*/
+            selectionArgs)
     }
 
     fun addTodo(todo: Todo){
